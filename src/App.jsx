@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Routes, Route, NavLink } from 'react-router-dom';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import './index.css';
 
 function App() {
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [ringPos, setRingPos] = useState({ x: 0, y: 0 });
+  const cursorRef = useRef(null);
+  const ringRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
@@ -16,13 +16,19 @@ function App() {
     const handleMouseMove = (e) => {
       mx = e.clientX;
       my = e.clientY;
-      setCursorPos({ x: mx, y: my });
+      if (cursorRef.current) {
+        cursorRef.current.style.left = `${mx}px`;
+        cursorRef.current.style.top = `${my}px`;
+      }
     };
 
     const animRing = () => {
       rx += (mx - rx) * 0.12;
       ry += (my - ry) * 0.12;
-      setRingPos({ x: rx, y: ry });
+      if (ringRef.current) {
+        ringRef.current.style.left = `${rx}px`;
+        ringRef.current.style.top = `${ry}px`;
+      }
       animationFrameId = requestAnimationFrame(animRing);
     };
 
@@ -56,19 +62,17 @@ function App() {
   return (
     <>
       <div 
+        ref={cursorRef}
         className="cursor" 
         style={{ 
-          left: `${cursorPos.x}px`, 
-          top: `${cursorPos.y}px`,
           width: isHovering ? '20px' : '10px',
           height: isHovering ? '20px' : '10px'
         }}
       ></div>
       <div 
+        ref={ringRef}
         className="cursor-ring" 
         style={{ 
-          left: `${ringPos.x}px`, 
-          top: `${ringPos.y}px`,
           width: isHovering ? '60px' : '36px',
           height: isHovering ? '60px' : '36px'
         }}
