@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import profileImg from '../assets/profile.jpg.png';
 
 const Home = () => {
   useEffect(() => {
@@ -40,7 +41,7 @@ const Home = () => {
         <div className="profile-card">
           <div className="profile-pic-wrap">
             <div className="profile-avatar">
-              <img src="/profile.jpg.png" alt="Chaithanya Vankina" />
+              <img src={profileImg} alt="Chaithanya Vankina" />
             </div>
           </div>
           <div className="profile-stat">
